@@ -11,4 +11,9 @@ class SearchBooksUseCase(
         println("estoy aca")
         return  bookRepository.findbyTitle(bookTitle)
     }
+
+    suspend fun invokeSave(book: Libro) : Boolean {
+        println("estoy aca3")
+        return  bookRepository.save(book)
+    }
 }

@@ -27,4 +27,19 @@ class BookRemoteDataSource(
             return NetworkResult.Error(response.message())
         }
     }
+    override suspend fun buscarPorId(id: String): NetworkResult<Libro> {
+        val response = retrofiService.apiService.getLibros("the+lord+of+the+rings")
+        if(response.isSuccessful) {
+            println("Respuesta exitosa2")
+            println(response.body()!!.libros.toString())
+            val librosBuscados = response.body()?.libros?.find( { it.key == id })
+            if (librosBuscados == null) {
+                println("entreee2")
+                return NetworkResult.Error("El libro" + id + " ya no se encuentra disponible")
+            }
+            return NetworkResult.Success(librosBuscados.toModel())
+        } else {
+            return NetworkResult.Error(response.message())
+        }
+    }
 }

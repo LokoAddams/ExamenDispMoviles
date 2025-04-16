@@ -9,7 +9,7 @@ import androidx.room.Query
 interface BookDAO {
 
     @Query("SELECT * FROM book_table")
-    fun getAccounts(): List<BookEntities>
+    fun getFavorites(): List<BookEntities>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(book: BookEntities)

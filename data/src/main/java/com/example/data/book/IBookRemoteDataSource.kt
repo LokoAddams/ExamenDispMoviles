@@ -6,4 +6,5 @@ import java.awt.print.Book
 
 interface IBookRemoteDataSource {
     suspend fun buscar(bookTitle: String): NetworkResult<List<Libro>>
+    suspend fun buscarPorId(id: String): NetworkResult<Libro>
 }

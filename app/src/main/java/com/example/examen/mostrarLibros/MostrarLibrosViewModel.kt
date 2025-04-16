@@ -1,40 +1,41 @@
-package com.example.examen.buscarLibro
+package com.example.examen.mostrarLibros
 
-import androidx.compose.runtime.MutableState
+
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.NetworkResult
 import com.example.domain.Libro
 import com.example.examen.responseStates.BookUIState
-import com.example.usecases.SearchBooksUseCase
+import com.example.usecases.ShowSavedBooks
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class BuscarLibrosViewModel @Inject constructor(
-    private val searchBooksUseCase: SearchBooksUseCase
+class MostrarLibrosViewModel @Inject constructor(
+    private val showSavedBooks: ShowSavedBooks
 ) : ViewModel() {
 
-
+    // Lista mutable de libros guardados (favoritos)
     private val _state = MutableStateFlow<BookUIState>(BookUIState.Loading)
     val state: StateFlow<BookUIState> = _state
 
-    // Holds the current text entry from the user.
-    val searchQuery: MutableState<String> = mutableStateOf("")
+    // Carga los libros guardados, por ejemplo, desde una base de datos local.
+    fun loadSavedBooks() {
 
-    fun onSearchQueryChanged(newValue: String) {
-        searchQuery.value = newValue
-    }
 
-    fun searchBooks() {
-        // Launch the search using the current query
         viewModelScope.launch {
             _state.value = BookUIState.Loading
-            val response = searchBooksUseCase.invoke(searchQuery.value)
+
+            val response = withContext(Dispatchers.IO) {
+                showSavedBooks.save()
+            }
             println("he retornado")
             when (response) {
                 is NetworkResult.Error -> {
@@ -48,15 +49,10 @@ class BuscarLibrosViewModel @Inject constructor(
         }
     }
 
-    fun likeBook(book: Libro) {
-        viewModelScope.launch{
-
-            val si = searchBooksUseCase.invokeSave(book)
-            if (si) {
-                println("se guardo")
-            } else {
-                println("no se guardo")
-            }
-        }
-    }
+//    // Función para eliminar un libro guardado.
+//    fun removeSavedBook(book: Libro) {
+//        // Llamada al caso de uso real:
+//        // removeBookUseCase(book)
+//        _state.value = _state.value.filter { it.id != book.id }
+//    }
 }

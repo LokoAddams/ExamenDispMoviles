@@ -27,3 +27,9 @@ fun Libro.toBookEntities(): BookEntities {
         key = key
     )
 }
+
+fun BookEntities.toModel(): Libro {
+    return Libro(
+        key = key
+    )
+}

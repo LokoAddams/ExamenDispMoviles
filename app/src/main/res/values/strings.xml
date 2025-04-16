@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Examen</string>
+    <string name="cargando">Cargando...</string>
+    <string name="error">Error: </string>
+    <string name="favoritos">Ir a favoritos </string>
+    <string name="titulo">Titulo:  </string>
+    <string name="autores">Autores:  </string>
+    <string name="noDsiponible">No disponible:  </string>
+    <string name="fav">Favorito </string>
+    <string name="buscarLibro">Buscar Libro </string>
+    <string name="busc">Buscar</string>
+    <string name="resultadosBus">Resultados de búsqueda:</string>
+    <string name="anio">Año: </string>
+
 </resources>

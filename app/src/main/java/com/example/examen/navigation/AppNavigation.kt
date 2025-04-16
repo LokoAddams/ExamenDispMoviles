@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.examen.buscarLibro.BuscarLibrosUI
-
+import com.example.examen.mostrarLibros.MostrarLibrosUI
 
 @Composable
 fun AppNavigation() {
@@ -17,7 +17,7 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.BuscarLibro.route,
+        startDestination = Screen.BuscarLibro .route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
@@ -25,12 +25,16 @@ fun AppNavigation() {
 
     ) {
         composable(Screen.BuscarLibro.route) {
-            BuscarLibrosUI()
+            BuscarLibrosUI(
+                onNavigateToMostrarLibros = {
+                    navController.navigate(Screen.MostrarLibrosFavoritos.route)
+                }
+            )
         }
 
-//        composable(Screen.MostrarLibrosFavoritos.route) {
-//
-//        }
+        composable(Screen.MostrarLibrosFavoritos.route) {
+            MostrarLibrosUI( onBackPressed = { navController.popBackStack()})
+        }
 
 
 

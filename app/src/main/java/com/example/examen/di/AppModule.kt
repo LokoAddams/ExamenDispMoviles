@@ -9,6 +9,7 @@ import com.example.framework.service.persistence.LocalDataSourceImpl
 import com.example.framework.service.remoteDataSource.BookRemoteDataSource
 import com.example.framework.service.service.RetrofitBuilder
 import com.example.usecases.SearchBooksUseCase
+import com.example.usecases.ShowSavedBooks
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +26,12 @@ object AppModule {
     @Singleton
     fun providerSearchBooksUseCase(bookRepository: BookRepository, @ApplicationContext context: Context) : SearchBooksUseCase {
         return SearchBooksUseCase(bookRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providerShowSavedBooks(bookRepository: BookRepository, @ApplicationContext context: Context) : ShowSavedBooks {
+        return ShowSavedBooks(bookRepository)
     }
 
     @Provides
