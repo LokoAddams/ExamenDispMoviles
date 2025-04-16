@@ -1,0 +1,11 @@
+package com.example.domain
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Libro(
+    val titulo: String,
+    val autores: List<String>?,
+    val anioPublicacion: String?,
+    val key : String
+)
