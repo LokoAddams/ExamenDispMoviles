@@ -12,7 +12,7 @@ class BookRemoteDataSource(
     override suspend fun buscar(bookTitle: String): NetworkResult<List<Libro>> {
         println("Buscando libro con el título: $bookTitle")
         println(retrofiService.apiService.toString())
-        val response = retrofiService.apiService.getLibros("the+lord+of+the+rings")
+        val response = retrofiService.apiService.getLibros(bookTitle)
         println(response.toString())
         if(response.isSuccessful) {
             println("Respuesta exitosa")
@@ -28,18 +28,26 @@ class BookRemoteDataSource(
         }
     }
     override suspend fun buscarPorId(id: String): NetworkResult<Libro> {
-        val response = retrofiService.apiService.getLibros("the+lord+of+the+rings")
+        println("vivo")
+        val response1 = retrofiService.apiService.getLibroById(id+".json")
+        val response = retrofiService.apiService.getLibros(response1.body()!!.title)
         if(response.isSuccessful) {
             println("Respuesta exitosa2")
-            println(response.body()!!.libros.toString())
-            val librosBuscados = response.body()?.libros?.find( { it.key == id })
+            println(response.body()!!.toString())
+            val librosBuscados = response.body()
+            println("muerto")
+
             if (librosBuscados == null) {
                 println("entreee2")
                 return NetworkResult.Error("El libro" + id + " ya no se encuentra disponible")
             }
-            return NetworkResult.Success(librosBuscados.toModel())
-        } else {
-            return NetworkResult.Error(response.message())
+            for (book in librosBuscados.libros) {
+                if (book.key == response1.body()!!.key) {
+                    return NetworkResult.Success(book.toModel())
+                }
+            }
         }
+            return NetworkResult.Error(response.message())
+
     }
 }

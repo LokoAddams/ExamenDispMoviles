@@ -1,7 +1,9 @@
 package com.example.framework.service.mappers
 
 import com.example.domain.Libro
+import com.example.framework.service.dto.LibroByIdDto
 import com.example.framework.service.dto.LibroDto
+import com.example.framework.service.dto.ListaLibrosDto
 import com.example.framework.service.persistence.BookEntities
 
 fun LibroDto.toModel(): Libro {
@@ -31,5 +33,14 @@ fun Libro.toBookEntities(): BookEntities {
 fun BookEntities.toModel(): Libro {
     return Libro(
         key = key
+    )
+}
+
+fun LibroByIdDto.toModel(): Libro {
+    return Libro(
+        titulo = title,
+        autores = authors,
+        anioPublicacion = null,
+        key = ""
     )
 }
